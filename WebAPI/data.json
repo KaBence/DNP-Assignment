@@ -1,0 +1,21 @@
+{
+  "Users": [
+    {
+      "Id": 1,
+      "UserName": "Test",
+      "Password": "asdasd"
+    }
+  ],
+  "Posts": [
+    {
+      "Id": 1,
+      "Owner": {
+        "Id": 1,
+        "UserName": "Test",
+        "Password": "asdasd"
+      },
+      "Title": "First Post",
+      "Body": "This is the first post"
+    }
+  ]
+}
