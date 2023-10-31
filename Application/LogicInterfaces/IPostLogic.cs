@@ -12,4 +12,6 @@ public interface IPostLogic
 
     
     Task DeleteAsync(int id);
+
+    Task UpdateAsync(PostUpdateDto dto);
 }

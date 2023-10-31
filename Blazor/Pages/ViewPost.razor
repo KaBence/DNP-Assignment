@@ -1,0 +1,91 @@
+﻿@page "/ViewPost/{id:int}"
+@using HttpClients.ClientInterfaces
+@using global::Shared.Models
+@using global::Shared.DTO
+@using Blazor.Services
+@inject IPostService postService
+@inject IAuthService authService;
+@inject NavigationManager navMgr
+
+<div class="card">
+    @if (postData == null)
+    {
+        <label>Loading Post data..</label>
+    }
+    else
+    {
+        <div class="field">
+            <img class="backimg" src="icons/BackButton.png" @onclick="@(() => navMgr.NavigateTo("/"))"/>
+            <h1>@postData.Title</h1>
+            <p>By: @postData.Owner.UserName</p>
+            <p>@postData.Body</p>
+        </div>
+        <div class="field">
+            <h1>Place your comment:</h1>
+            <input class="inputComment" type="text" @bind="comment" placeholder="Write your comment here..."/>
+            <button class="postbtn" @onclick="placeComment">Post Comment</button>
+        </div>
+        <div class="field">
+            <h1>Comments</h1>
+            @if (postData.Comments == null)
+            {
+                <p>Loading comments</p>
+            }
+            else
+            {
+                @foreach (var item in postData.Comments)
+                {
+                    <div class="field">
+                        <h2>@item.user</h2>
+                        <p>@item.body</p>
+                    </div>
+                }
+            }
+        </div>
+    }
+    @if (!string.IsNullOrEmpty(msg))
+    {
+        <label style="color: red">@msg</label>
+    }
+</div>
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    
+    private string msg = "";
+    private Post postData;
+    private string comment;
+
+    
+    protected override async Task OnInitializedAsync()
+    {
+        msg = "";
+        try
+        {
+            postData = await postService.GetByIdAsync(Id);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            msg = e.Message;
+        }
+    }
+
+    private async Task placeComment()
+    {
+        msg = "";
+        try
+        {
+            Comment temp = new Comment(authService.GetAuthAsync().Result.Identity.Name, comment);
+            await postService.UpdateAsync(new PostUpdateDto(Id,temp));
+            navMgr.NavigateTo("/ViewPost/"+Id,true);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            msg = e.Message;
+        }
+    }
+}

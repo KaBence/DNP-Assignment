@@ -1,0 +1,43 @@
+.card {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width:60%;
+    height: 100%;
+    padding: 25px;
+    margin: auto;
+    margin-top: 50px;
+    background-color: #e6e2df;
+}
+
+.field {
+    margin-top: 20px;
+    display: block;
+}
+
+.inputComment{
+    width: 100%;
+    background-color: #d9d6d2;
+    height: 80px;
+}
+
+.backimg{
+    height: 50px;
+}
+
+.backimg:hover{
+    transform: scale(1.1);
+}
+
+.postbtn {
+    background-color:#b0aca7;
+    border-radius: 30px;
+    padding: 10px;
+    padding-top: 10px;
+    margin-top: 20px;
+    float: right;
+}
+
+.postbtn:hover{
+    transform: scale(1.1);
+    box-shadow: 0 2px 10px 2px #3f3f3f;
+}

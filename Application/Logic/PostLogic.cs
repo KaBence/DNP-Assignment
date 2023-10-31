@@ -19,10 +19,10 @@ public class PostLogic : IPostLogic
 
     public async Task<Post> CreateAsync(PostCreationDto dto)
     {
-        User? user = await userDao.GetByIdAsync(dto.OwnerId);
+        User? user = await userDao.GetByUsernameAsync(dto.Owner);
         if (user == null)
         {
-            throw new Exception($"User with id {dto.OwnerId} was not found.");
+            throw new Exception($"User with {dto.Owner} was not found.");
         }
 
         ValidatePost(dto);
@@ -51,16 +51,45 @@ public class PostLogic : IPostLogic
 
         await postDao.DeleteAsync(id);
     }
-    
+
+    public async Task UpdateAsync(PostUpdateDto dto)
+    {
+        Post? existing = await postDao.GetByIdAsync(dto.Id);
+
+        if (existing == null)
+        {
+            throw new Exception($"Post with ID {dto.Id} not found!");
+        }
+
+        if (dto.Comment.body==null)
+        {
+            throw new Exception("If you want to leave a comment say something!");
+        }
+        
+        existing.Comments.Add(dto.Comment);
+
+        Post updated = new(existing.Owner, existing.Title,existing.Body)
+        {
+            Id = existing.Id,
+            Comments=existing.Comments
+        };
+
+        ValidatePost(updated);
+
+        await postDao.UpdateAsync(updated);
+    }
+
     private void ValidatePost(Post dto)
     {
         if (string.IsNullOrEmpty(dto.Title)) throw new Exception("Title cannot be empty.");
+        if (string.IsNullOrEmpty(dto.Body)) throw new Exception("Body cannot be empty");
         // other validation stuff
     }
 
     private void ValidatePost(PostCreationDto dto)
     {
         if (string.IsNullOrEmpty(dto.Title)) throw new Exception("Title cannot be empty.");
+        if (string.IsNullOrEmpty(dto.Body)) throw new Exception("Body cannot be empty");
         // other validation stuff
     }
 }

@@ -2,8 +2,8 @@
   "Users": [
     {
       "Id": 1,
-      "UserName": "Test",
-      "Password": "asdasd"
+      "UserName": "Bence",
+      "Password": "asdqwe"
     }
   ],
   "Posts": [
@@ -11,11 +11,21 @@
       "Id": 1,
       "Owner": {
         "Id": 1,
-        "UserName": "Test",
-        "Password": "asdasd"
+        "UserName": "Bence",
+        "Password": "asdqwe"
       },
-      "Title": "First Post",
-      "Body": "This is the first post"
+      "Title": "TestPost",
+      "Body": "Creating a post ",
+      "Comments": [
+        {
+          "user": "Bence",
+          "body": "Are the comments working?"
+        },
+        {
+          "user": "Bence",
+          "body": "Yes"
+        }
+      ]
     }
   ]
 }

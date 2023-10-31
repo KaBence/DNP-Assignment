@@ -1,0 +1,52 @@
+﻿@using global::Shared.Models
+@using HttpClients.ClientInterfaces
+@using global::Shared.DTO
+@using Blazor.Services
+@inject NavigationManager navMgr
+@inject IPostService postService;
+@inject IAuthService AuthService;
+
+<h3>CreatePost</h3>
+<img class="backimg" src="icons/BackButton.png" @onclick="@(() => onChange.InvokeAsync())"/>
+    <div class="field">
+        <label>Title:</label>
+        <input class="ptext" type="text" @bind="postTitle"/>
+    </div>
+    <div class="field">
+        <label>Body</label>
+        <input class="pbody" type="text" @bind="postBody"/>
+    </div>
+    <div class="field">
+        @if (!string.IsNullOrEmpty(msg))
+        {
+            <label style="color: red">@msg</label>
+        }
+        <button @onclick="Create" class="acceptbtn">Create Post</button>
+    </div>
+
+
+
+@code {
+    [Parameter]
+    public EventCallback onChange { get; set; }
+
+    private string postTitle;
+    private string postBody;
+    private string msg = "";
+    
+
+    private async Task Create()
+    {
+        try
+        {
+            string name = AuthService.GetAuthAsync().Result.Identity!.Name!;
+            await postService.CreateAsync(new PostCreationDto(name, postTitle, postBody));
+            await onChange.InvokeAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+}

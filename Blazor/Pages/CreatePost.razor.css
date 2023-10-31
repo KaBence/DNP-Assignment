@@ -1,0 +1,36 @@
+.pbody{
+    width: 100%;
+    height: 100px;
+}
+
+.ptext{
+    width: 100%;
+}
+
+.field {
+    margin-top: 20px;
+}
+
+.acceptbtn {
+    background-color:#b0aca7;
+    border-radius: 30px;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 15px;
+}
+
+.acceptbtn:hover{
+    transform: scale(1.1);
+}
+
+
+
+.backimg{
+    height: 50px;
+    width: 60px;
+}
+
+.backimg:hover{
+    transform: scale(1.1);
+}
