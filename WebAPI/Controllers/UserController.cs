@@ -16,12 +16,12 @@ public class UserController : ControllerBase
     }
     
     [HttpPost]
-    public async Task<ActionResult<User>> CreateAsync(UserCreationDto dto)
+    public async Task<ActionResult<Owner>> CreateAsync(UserCreationDto dto)
     {
         try
         {
-            User user = await userLogic.CreateAsync(dto);
-            return Created($"/users/{user.Id}", user);
+            Owner owner = await userLogic.CreateAsync(dto);
+            return Created($"/users/{owner.Id}", owner);
         }
         catch (Exception e)
         {
@@ -31,12 +31,12 @@ public class UserController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<User>>> GetAsync([FromQuery] string? username)
+    public async Task<ActionResult<IEnumerable<Owner>>> GetAsync([FromQuery] string? username)
     {
         try
         {
             SearchUserParametersDto parameters = new(username);
-            IEnumerable<User> users = await userLogic.GetAsync(parameters);
+            IEnumerable<Owner> users = await userLogic.GetAsync(parameters);
             return Ok(users);
         }
         catch (Exception e)
@@ -47,11 +47,11 @@ public class UserController : ControllerBase
     }
     
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<User>> GetByIdAsync([FromRoute] int id)
+    public async Task<ActionResult<Owner>> GetByIdAsync([FromRoute] int id)
     {
         try
         {
-            User? user= await userLogic.GetByIdAsync(id);
+            Owner? user= await userLogic.GetByIdAsync(id);
             return Ok(user);
         }
         catch (Exception e)

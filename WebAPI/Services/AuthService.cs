@@ -15,9 +15,9 @@ public class AuthService:IAuthService
         this.userDao = userDao;
     }
 
-    public async Task<User> GetUser(string username, string password)
+    public async Task<Owner> GetUser(string username, string password)
     {
-        User? existingUser = await userDao.GetByUsernameAsync(username);
+        Owner? existingUser = await userDao.GetByUsernameAsync(username);
         
         if (existingUser == null)
         {
@@ -39,7 +39,7 @@ public class AuthService:IAuthService
             throw new ValidationException("Username cannot be null");
         }
 
-        User? temp = await userDao.GetByUsernameAsync(user.UserName);
+        Owner? temp = await userDao.GetByUsernameAsync(user.UserName);
         if (!string.IsNullOrEmpty(temp?.UserName))
         {
             throw new ValidationException("Username already exists");
@@ -59,7 +59,7 @@ public class AuthService:IAuthService
         
         // save to persistence instead of list
 
-        await userDao.CreateAsync(new User(user.UserName,user.Password));
+        await userDao.CreateAsync(new Owner(user.UserName,user.Password));
         //Then Task.CompletedTask is return, the equivalent of void, when working with Task return types.
     }
 }

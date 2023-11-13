@@ -19,14 +19,14 @@ public class PostLogic : IPostLogic
 
     public async Task<Post> CreateAsync(PostCreationDto dto)
     {
-        User? user = await userDao.GetByUsernameAsync(dto.Owner);
+        Owner? user = await userDao.GetByUsernameAsync(dto.Owner);
         if (user == null)
         {
             throw new Exception($"User with {dto.Owner} was not found.");
         }
 
         ValidatePost(dto);
-        Post todo = new Post(user, dto.Title,dto.Body);
+        Post todo = new Post(user.Id, dto.Title,dto.Body);
         Post created = await postDao.CreateAsync(todo);
         return created;
     }
@@ -54,6 +54,7 @@ public class PostLogic : IPostLogic
 
     public async Task UpdateAsync(PostUpdateDto dto)
     {
+        
         Post? existing = await postDao.GetByIdAsync(dto.Id);
 
         if (existing == null)
@@ -61,14 +62,14 @@ public class PostLogic : IPostLogic
             throw new Exception($"Post with ID {dto.Id} not found!");
         }
 
-        if (dto.Comment.body==null)
+        if (dto.Comment.Body==null)
         {
             throw new Exception("If you want to leave a comment say something!");
         }
         
         existing.Comments.Add(dto.Comment);
 
-        Post updated = new(existing.Owner, existing.Title,existing.Body)
+        Post updated = new(existing.Owner.Id, existing.Title,existing.Body)
         {
             Id = existing.Id,
             Comments=existing.Comments

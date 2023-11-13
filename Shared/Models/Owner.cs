@@ -1,19 +1,19 @@
-﻿namespace Shared.Models;
+﻿using System.ComponentModel.DataAnnotations;
 
-public class User
+namespace Shared.Models;
+
+public class Owner
 {
+    [Key]
     public int Id { get; set; }
     public string UserName { get; set; }
     public string Password { get; set; }
-
-    public User()
-    {
-        
-    }
-
-    public User(string userName, string password)
+    
+    public Owner(string userName, string password)
     {
         UserName = userName;
         Password = password;
     }
+    
+    private Owner(){}
 }

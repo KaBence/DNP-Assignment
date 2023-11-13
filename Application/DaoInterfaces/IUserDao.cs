@@ -5,10 +5,10 @@ namespace Application.DaoInterfaces;
 
 public interface IUserDao
 {
-    Task<User> CreateAsync(User user);
+    Task<Owner> CreateAsync(Owner owner);
 
-    Task<User?> GetByUsernameAsync(string userName);
+    Task<Owner?> GetByUsernameAsync(string userName);
 
-    Task<IEnumerable<User>> GetAsync(SearchUserParametersDto searchParameters);
-    Task<User?> GetByIdAsync(int dtoOwnerId);
+    Task<IEnumerable<Owner>> GetAsync(SearchUserParametersDto searchParameters);
+    Task<Owner?> GetByIdAsync(int dtoOwnerId);
 }

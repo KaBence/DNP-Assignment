@@ -13,7 +13,7 @@ public class UserFileDao : IUserDao
         this.context = context;
     }
 
-    public Task<User> CreateAsync(User user)
+    public Task<Owner> CreateAsync(Owner owner)
     {
         int userId = 1;
         if (context.Users.Any())
@@ -22,25 +22,25 @@ public class UserFileDao : IUserDao
             userId++;
         }
 
-        user.Id = userId;
+        owner.Id = userId;
 
-        context.Users.Add(user);
+        context.Users.Add(owner);
         context.SaveChanges();
 
-        return Task.FromResult(user);
+        return Task.FromResult(owner);
     }
 
-    public Task<User?> GetByUsernameAsync(string userName)
+    public Task<Owner?> GetByUsernameAsync(string userName)
     {
-        User? existing = context.Users.FirstOrDefault(u =>
+        Owner? existing = context.Users.FirstOrDefault(u =>
             u.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase)
         );
         return Task.FromResult(existing);
     }
 
-    public Task<IEnumerable<User>> GetAsync(SearchUserParametersDto searchParameters)
+    public Task<IEnumerable<Owner>> GetAsync(SearchUserParametersDto searchParameters)
     {
-        IEnumerable<User> users = context.Users.AsEnumerable();
+        IEnumerable<Owner> users = context.Users.AsEnumerable();
         if (searchParameters.UsernameContains != null)
         {
             users = context.Users.Where(u => u.UserName.Contains(searchParameters.UsernameContains, StringComparison.OrdinalIgnoreCase));
@@ -49,9 +49,9 @@ public class UserFileDao : IUserDao
         return Task.FromResult(users);
     }
 
-    public Task<User?> GetByIdAsync(int dtoOwnerId)
+    public Task<Owner?> GetByIdAsync(int dtoOwnerId)
     {
-        User? user = context.Users.FirstOrDefault(u => u.Id == dtoOwnerId);
+        Owner? user = context.Users.FirstOrDefault(u => u.Id == dtoOwnerId);
         return Task.FromResult(user);
     }
 }

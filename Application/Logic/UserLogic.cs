@@ -14,27 +14,27 @@ public class UserLogic : IUserLogic
         this.userDao = userDao;
     }
 
-    public async Task<User> CreateAsync(UserCreationDto userToCreate)
+    public async Task<Owner> CreateAsync(UserCreationDto userToCreate)
     {
-        User? existing = await userDao.GetByUsernameAsync(userToCreate.UserName);
+        Owner? existing = await userDao.GetByUsernameAsync(userToCreate.UserName);
         if (existing != null)
             throw new Exception("Username already taken!");
 
         ValidateData(userToCreate);
 
-        User toCreate = new User(userToCreate.UserName, userToCreate.Password);
+        Owner toCreate = new Owner(userToCreate.UserName, userToCreate.Password);
 
-        User created = await userDao.CreateAsync(toCreate);
+        Owner created = await userDao.CreateAsync(toCreate);
 
         return created;
     }
 
-    public Task<IEnumerable<User>> GetAsync(SearchUserParametersDto searchParameters)
+    public Task<IEnumerable<Owner>> GetAsync(SearchUserParametersDto searchParameters)
     {
         return userDao.GetAsync(searchParameters);
     }
 
-    public Task<User?> GetByIdAsync(int id)
+    public Task<Owner?> GetByIdAsync(int id)
     {
         return userDao.GetByIdAsync(id);
     }

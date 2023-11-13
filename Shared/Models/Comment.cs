@@ -1,14 +1,20 @@
-﻿namespace Shared.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Shared.Models;
 
 public class Comment
 {
-    public string user { get; set; }
+    [Key]
+    public int Id { get; set; }
+    public string User { get; set; }
     
-    public string body { get; set; }
+    public string Body { get; set; }
 
     public Comment(string user, string body)
     {
-        this.user = user;
-        this.body = body;
+        User = user;
+        Body = body;
     }
+    
+    private Comment(){}
 }
